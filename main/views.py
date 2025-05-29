@@ -2,17 +2,6 @@ import os
 from django.shortcuts import render
 from .forms import UploadFileForm
 from sklearn.feature_extraction.text import TfidfVectorizer
-
-#     if request.method == "POST":
-#         form = UploadFileForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             file = request.FILES["file"]
-#             result = process_file(file)
-#             return render(request, "result.html", {"result": result})
-#     else:
-#         form = UploadFileForm()
-#     return render(request, "upload.html", {"form": form})
-
 import chardet
 
 def process_file(file_field):
