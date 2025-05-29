@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Результаты TF-IDF</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #ffffff; /* Белый фон */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 70%;
+            background: linear-gradient(to right, #ffecd2, #fcb69f);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 18px;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background: #ffb88c;
+            color: white;
+        }
+        a {
+            color: #ff6f61;
+            font-weight: bold;
+            text-decoration: none;
+            transition: 0.3s;
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            background: #ffb88c;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        a:hover {
+            background: #ff935c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Топ-50 слов по TF-IDF</h2>
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Слово</th>
+                <th>TF-IDF</th>
+            </tr>
+            {% for item in result %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ item.0 }}</td>
+                <td>{{ item.1|floatformat:5 }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <a href="/">🔄 Загрузить новый файл</a>
+    </div>
+</body>
+</html>

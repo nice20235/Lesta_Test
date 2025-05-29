@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Загрузка файла</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #ffffff; /* Белый фон */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(to right, #ffecd2, #fcb69f);
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            width: 350px;
+        }
+        h2 {
+            color: #333;
+        }
+        button {
+            background: #ff6f61;
+            color: #fff;
+            font-size: 18px;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #ff3b3b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Загрузите текстовый файл</h2>
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Загрузить</button>
+        </form>
+    </div>
+</body>
+</html>
