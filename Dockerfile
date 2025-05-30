@@ -56,7 +56,7 @@ WORKDIR /app
 COPY --from=builder /install /usr/local
 
 # Копируем только нужные файлы приложения
-COPY --from=builder /app /app
+COPY --from=builder /app .
 
 EXPOSE 8000
 
