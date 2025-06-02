@@ -1,32 +1,40 @@
-# simple docker-compose.yaml
-# services:
-#   web:
-#     build: .
-#     command: uvicorn combined_asgi:app --host 0.0.0.0 --port ${APP_PORT}
-#     ports:
-#       - "${APP_PORT}:${APP_PORT}"
-#     env_file:
-#       - .env
-#     volumes:
-#       - .:/app
-
-
-
-
-
-# multi stage docker-compose.yaml
 services:
   web:
     build:
       context: .
       dockerfile: Dockerfile
-      target: production  
-    command: uvicorn combined_asgi:app --host 0.0.0.0 --port ${APP_PORT:-8000}
-    ports:
-      - "${APP_PORT:-8000}:${APP_PORT:-8000}"
+      target: production
     env_file:
       - .env
-    volumes:
-      - .:/app
     environment:
       - PYTHONUNBUFFERED=1
+      - DJANGO_SETTINGS_MODULE=core.settings
+    volumes:
+      - .:/app
+      - staticfiles:/staticfiles
+      - media:/app/media
+    expose:
+      - "8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./static:/static  # 
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - staticfiles:/staticfiles
+      - media:/app/media
+    # depends_on:
+    #   web:
+    #     condition: service_healthy
+
+volumes:
+  staticfiles:
+  media:

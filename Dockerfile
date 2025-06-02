@@ -1,63 +1,48 @@
-# Simple Dockerfile
-
-# FROM python:3.11-slim as build
-
-# WORKDIR /app
-
-# COPY . /app
-
-# RUN pip install --no-cache-dir -r requirements.txt
-
-# EXPOSE 8000
-
-# CMD ["uvicorn", "combined_asgi:app", "--host", "0.0.0.0", "--port", "8000"]
-
-
-
-# # Вторая стадия: финальный образ
-# FROM python:3.11-slim as production
-
-# WORKDIR /app
-
-# # Копируем только необходимые файлы из стадии build
-# COPY --from=build /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
-# COPY --from=build /app .
-
-# # Открываем порт
-# EXPOSE 8000
-
-# # Запускаем приложение
-# CMD ["uvicorn", "combined_asgi:app", "--host", "0.0.0.0", "--port", "8000"]
-
-
-
-# Multi stage Dockerfile
-
 # Стадия сборки
-FROM python:3.11-slim as builder
+FROM python:3.11-slim AS builder
 
 WORKDIR /app
 
-# Сначала копируем только requirements.txt для лучшего использования кеша
+# Устанавливаем системные зависимости
+RUN apt-get update && apt-get install -y --no-install-recommends gcc python3-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+# Копируем зависимости отдельно для кеширования
 COPY requirements.txt .
 
-# Устанавливаем зависимости в отдельную директорию
-RUN pip install --prefix=/install --no-cache-dir -r requirements.txt
+# Устанавливаем зависимости в виртуальное окружение
+RUN python -m venv /opt/venv && \
+    /opt/venv/bin/pip install --no-cache-dir -r requirements.txt
 
-# Копируем остальные файлы
+# Копируем весь проект
 COPY . .
 
 # Финальная стадия
-FROM python:3.11-slim as production
+FROM python:3.11-slim AS production
 
 WORKDIR /app
 
-# Копируем установленные зависимости
-COPY --from=builder /install /usr/local
+# Копируем виртуальное окружение
+COPY --from=builder /opt/venv /opt/venv
 
-# Копируем только нужные файлы приложения
-COPY --from=builder /app .
+# Копируем проект
+COPY --from=builder /app /app
+
+# Добавляем venv в PATH
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Настройки окружения
+ENV PYTHONUNBUFFERED=1 \
+    DJANGO_SETTINGS_MODULE=core.settings \
+    PYTHONPATH="/app"
+
+# Создаем директории для статики и медиа
+RUN mkdir -p /app/staticfiles /app/media
+
+# Копируем entrypoint-скрипт
+COPY entrypoint.sh .
+RUN chmod +x entrypoint.sh
 
 EXPOSE 8000
 
-CMD ["uvicorn", "combined_asgi:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["./entrypoint.sh"]
