@@ -11,9 +11,9 @@ services:
       - DJANGO_SETTINGS_MODULE=core.settings
     volumes:
       - .:/app
-      - staticfiles:/staticfiles
+      - ./staticfiles:/app/staticfiles
       - media:/app/media
-      - ./baza.db:/app/baza.db  # 👈 ПЕРЕНЕСЁН СЮДА
+      - ./baza.db:/app/baza.db 
     expose:
       - "8000"
     healthcheck:
