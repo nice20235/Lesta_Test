@@ -1,25 +1,68 @@
-# Файлы Python
+# ========================
+# Python
+# ========================
 __pycache__/
-*.pyc
+*.py[cod]
 *.pyo
 *.pyd
 
-# Файлы IDE
+# ========================
+# Environments & Secrets
+# ========================
 .venv/
 venv/
 .env
+.env.*
 
-# Базы данных
+# ========================
+# Database files
+# ========================
 *.db
 *.sqlite3
+baza.db
 
-# Медиа и статика
-/media/
-/static/
+# ========================
+# Media and static files
+# ========================
+media/
+static/
+staticfiles/
 
-# Логи и временные файлы
+# ========================
+# Logs & temp files
+# ========================
 *.log
 *.tmp
+*.bak
+*.swp
+*.swo
 
+# ========================
+# VS Code / IDE
+# ========================
+.vscode/
+.idea/
+
+# ========================
 # Docker
+# ========================
 docker-compose.override.yml
+__docker_build__/
+
+# ========================
+# Coverage / Testing
+# ========================
+.coverage
+htmlcov/
+*.cover
+coverage.xml
+*.pytest_cache/
+.tox/
+.cache/
+.nox/
+
+# ========================
+# Misc
+# ========================
+.DS_Store
+Thumbs.db

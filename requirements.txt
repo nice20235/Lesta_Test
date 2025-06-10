@@ -6,3 +6,9 @@ starlette>=0.37
 pydantic>=2.0
 scikit-learn>=1.4
 chardet==5.2.0
+
+# Для JWT авторизации
+python-jose[cryptography]>=3.3.0
+
+# Для безопасности паролей
+passlib[bcrypt]>=1.7.4
