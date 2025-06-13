@@ -57,6 +57,13 @@ pip install -r requirements.txt
 uvicorn combined_asgi:app --reload
 
 
+Откройте в браузере:
+
+Приложение: http://127.0.0.1:8000
+
+Документация API (Swagger): http://127.0.0.1:8000/api/docs
+
+
 
 
 🐳 Запуск в Docker
