@@ -25,8 +25,8 @@ import time
 
 from django.core.asgi import get_asgi_application
 
-load_dotenv()
 
+load_dotenv()
 
 fastapi_app = FastAPI()
 django_app = get_asgi_application()
