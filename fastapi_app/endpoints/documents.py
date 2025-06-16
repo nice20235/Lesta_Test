@@ -16,8 +16,8 @@ import heapq
 
 
 router = APIRouter()
-DB_PATH = "baza.db"
-UPLOAD_DIR = "media/files"
+DB_PATH = os.getenv("DB_PATH")
+UPLOAD_DIR = os.getenv("UPLOAD_DIR")
 
 def get_db_connection():
     init_db()

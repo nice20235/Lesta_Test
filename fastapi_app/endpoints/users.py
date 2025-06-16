@@ -5,10 +5,11 @@ from pydantic import BaseModel
 from fastapi import Response
 import sqlite3
 import hashlib
+import os
 
 
 router = APIRouter()
-DB_PATH = "baza.db"
+DB_PATH = os.getenv("DB_PATH")
 
 def get_db_connection():
     init_db()
@@ -24,7 +25,8 @@ class UserAuth(BaseModel):
     password: str
 
 class PasswordUpdate(BaseModel):
-    new_password: str
+    password: str
+    
 @router.post("/register", summary="Создание пользователя")
 def register_user(user: UserAuth):
     conn = get_db_connection()
@@ -69,7 +71,7 @@ def update_password(pw: PasswordUpdate, user_id: int = Depends(get_current_user)
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("UPDATE main_user SET password = ? WHERE id = ?",
-                   (hash_password(pw.new_password), user_id))
+                   (hash_password(pw.password), user_id))
     conn.commit()
     conn.close()
     return {"message": "Пароль обновлён"}

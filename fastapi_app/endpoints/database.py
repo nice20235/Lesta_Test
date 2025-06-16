@@ -1,6 +1,8 @@
 import sqlite3
+import os
 
-DB_PATH = "baza.db"
+
+DB_PATH = os.getenv("DB_PATH")
 
 def init_db():
     conn = sqlite3.connect(DB_PATH)

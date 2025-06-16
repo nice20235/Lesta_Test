@@ -6,7 +6,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import os
 
 router = APIRouter()
-DB_PATH = "baza.db"
+DB_PATH = os.getenv("DB_PATH")
 
 def get_db_connection():
     init_db()

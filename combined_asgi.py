@@ -10,6 +10,7 @@ from starlette.applications import Starlette
 from starlette.routing import Mount
 from fastapi.staticfiles import StaticFiles
 from collections import deque
+from dotenv import load_dotenv
 from fastapi_app.endpoints.users import router as users_router
 from fastapi_app.endpoints.documents import router as documents_router
 from fastapi_app.endpoints.my_collections import router as collections_router
@@ -24,6 +25,8 @@ import time
 
 from django.core.asgi import get_asgi_application
 
+load_dotenv()
+
 
 fastapi_app = FastAPI()
 django_app = get_asgi_application()
@@ -37,8 +40,8 @@ fastapi_app.include_router(collections_router, prefix="/collections", tags=["Col
 APP_VERSION = "1.0.0"
 
 
-DB_PATH = "baza.db"
-UPLOAD_DIR = "media/files"
+DB_PATH = os.getenv("DB_PATH")
+UPLOAD_DIR = os.getenv("UPLOAD_DIR")
 
 
 
